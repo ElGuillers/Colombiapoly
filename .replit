@@ -1,0 +1,6 @@
+modules = ["java-21"]
+run = "bash run.sh"
+entrypoint = "src/Main.java"
+
+[gitHubImport]
+requiredFiles = [".replit", "run.sh", "src/Main.java"]
