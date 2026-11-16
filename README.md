@@ -1,133 +1,101 @@
 # 🇨🇴 Colombiapoly
 
-[![Run on Replit](https://replit.com/badge/github/ElGuillers/Colombiapoly)](https://replit.com/new/github/ElGuillers/Colombiapoly)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FElGuillers%2FColombiapoly)
 ![Java](https://img.shields.io/badge/Java-11%2B-orange.svg)
+![Web](https://img.shields.io/badge/Web-HTML5%20%7C%20CSS3%20%7C%20JS-yellow.svg)
 ![Paradigm](https://img.shields.io/badge/Paradigm-OOP-blue.svg)
+![Hosting](https://img.shields.io/badge/Deploy-Vercel-black.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 
-> **Colombiapoly** es una adaptación del clásico juego de mesa Monopoly desarrollada en **Java**, ambientada completamente en la geografía, cultura y economía de **Colombia**. 
-
-Diseñado bajo principios de **Programación Orientada a Objetos (POO)**, con una arquitectura modular y desacoplada que simula turnos de jugadores, lanzamiento de dados, compra de propiedades emblemáticas, cobro de alquileres, impuestos y visitas a la cárcel ("La Picota").
+> **Colombiapoly** es una adaptación del clásico juego de mesa Monopoly desarrollada con lógica central en **Java (Programación Orientada a Objetos)** y una **interfaz web interactiva** moderna lista para desplegar en **Vercel** o **GitHub Pages**. Ambientado 100% en la cultura, ciudades y economía de **Colombia**.
 
 ---
 
-## 🎮 Jugar Ahora en la Nube (1 Clic)
+## 🌐 Demo en Vivo
 
-Puedes probar el juego en vivo desde tu navegador sin instalar Java ni configurar entornos:
+Puedes probar la versión web en línea sin instalar nada y desde cualquier dispositivo (PC, tablet o móvil):
 
-👉 **[Haz clic aquí para Ejecutar en Replit](https://replit.com/new/github/ElGuillers/Colombiapoly)**  
-*(Presiona el botón verde **Run** al cargar para iniciar la partida en la terminal interactiva)*.
+👉 **[Jugar Colombiapoly en Vivo](https://colombiapoly.vercel.app)** *(o en tu URL de Vercel)*
 
 ---
 
 ## ✨ Características Principales
 
-- **Multijugador por consola:** Soporte para 2 a 4 jugadores por partida.
-- **Economía Colombiana:** Transacciones en Pesos Colombianos (COP) con un saldo inicial de **$15.000.000 COP** por jugador.
-- **Tablero Realista (40 Casillas):**
+- **Multijugador:** Partidas de 2 a 4 jugadores con avatares temáticos (🚗 Chiva, ☕ Café, 🥑 Aguacate, 🦅 Cóndor).
+- **Economía Colombiana:** Moneda en Pesos Colombianos (COP) con capital inicial de **$15.000.000 COP** por jugador.
+- **Tablero Realista de 40 Casillas:**
   - **Ciudades y Regiones:** Bogotá (Parque 93, Centro Histórico), Medellín (El Poblado, Laureles), Cartagena (Bocagrande), Cali, Bucaramanga, San Andrés, Santa Marta, Pasto, Leticia, Quibdó, entre otras.
   - **Sistemas de Transporte:** Transmilenio, Metro de Medellín, MIO y Transmetro.
-  - **Servicios Públicos:** EPM (Energía) y Acueducto.
+  - **Servicios Públicos:** EPM (Energía) y Empresa de Acueducto.
   - **Casillas Especiales:** SALIDA (+ $2.000.000 COP al dar la vuelta), Impuestos (Renta y Lujo), Casualidad, Arca Comunal y Cárcel ("La Picota").
-- **Mecánica de Dados:** Lanzamiento de 2 dados de 6 caras. ¡Si sacas dados dobles, obtienes un turno extra!
-- **Gestión de Propiedades y Renta:** Compra de casillas disponibles y cobro automatizado de renta a rivales.
+- **Mecánica de Dados:** Lanzamiento de 2 dados con animaciones y regla de dados dobles (turno extra).
+- **Gestión Inmobiliaria:** Compra de propiedades y cobro automático de rentas a rivales.
+- **Efectos de Sonido:** Audio sintetizado con la Web Audio API (100% nativo, sin dependencias externas).
 
 ---
 
-## 🏛️ Arquitectura y Diseño de Software
+## 🏛️ Arquitectura del Proyecto
 
-El proyecto aplica principios de **Clean Code** y **POO (Programación Orientada a Objetos)**:
+El proyecto implementa principios de **Clean Code**, **Separación de Responsabilidades** y **POO**:
 
 ```
-src/
-├── Main.java                        # Punto de entrada de la aplicación
-└── com/colombiapoly/
-    ├── Juego.java                   # Controlador del ciclo de vida y turnos
-    └── modelo/
-        ├── Casilla.java             # Entidad de casilla (Enum TipoCasilla, precios, propietario)
-        ├── Dado.java                # Simulación de generación aleatoria de dados
-        ├── Jugador.java             # Entidad jugador (saldo, posición, estado en cárcel)
-        └── Tablero.java             # Estructura del tablero y configuración de las 40 casillas
+Colombiapoly/
+├── src/                             # LÓGICA DE NEGOCIO EN JAVA
+│   ├── Main.java                    # Punto de entrada consola
+│   └── com/colombiapoly/
+│       ├── Juego.java               # Controlador de partida en consola
+│       └── modelo/
+│           ├── Casilla.java         # Modelo de casilla (Enum, compra, renta)
+│           ├── Dado.java            # Aleatoriedad y tiradas
+│           ├── Jugador.java         # Estado, dinero, posición y cárcel
+│           └── Tablero.java         # Arreglo circular de 40 casillas
+│
+├── index.html                       # INTERFAZ WEB (HTML5 semántico)
+├── style.css                        # ESTILOS MODERNOS (Responsive, tema oscuro)
+├── app.js                           # CONTROLADOR WEB (ES6 OOP que replica Java)
+├── vercel.json                      # CONFIGURACIÓN PARA VERCEL
+└── README.md
 ```
 
-### Diagrama de Responsabilidades
+### Correspondencia de Clases (Java ↔ Web)
 
-| Clase | Responsabilidad Principal |
-|---|---|
-| `Main` | Inicializa y lanza la instancia principal del juego. |
-| `Juego` | Orquesta el flujo de turnos, captura de inputs (`Scanner`), lógica de compra, transacciones y desempates por dados dobles. |
-| `Tablero` | Inicializa y administra el arreglo circular de las 40 casillas temáticas. |
-| `Casilla` | Modela las propiedades, tipo de casilla (`PROPIEDAD`, `TRANSPORTE`, `SERVICIO`, etc.), costos de compra y renta. |
-| `Jugador` | Gestiona el estado de cada participante: saldo, posición relativa (0 a 39) y penalizaciones de cárcel. |
-| `Dado` | Encapsula la aleatoriedad (`Random`) para simular lanzamientos de 1 a 6. |
-
----
-
-## 🚀 Cómo Ejecutar Localmente
-
-### Prerrequisitos
-- Tener instalado **Java JDK 11 o superior** (`java -version` en tu terminal).
-- Git instalado (opcional para clonar).
-
-### Paso a paso desde la terminal
-
-1. **Clonar el repositorio:**
-   ```bash
-   git clone https://github.com/ElGuillers/Colombiapoly.git
-   cd Colombiapoly
-   ```
-
-2. **Compilar las clases:**
-   ```bash
-   javac -encoding UTF-8 -d bin src/com/colombiapoly/modelo/*.java src/com/colombiapoly/*.java src/Main.java
-   ```
-
-3. **Ejecutar el juego:**
-   ```bash
-   java -cp bin Main
-   ```
-
-### Ejecución en IntelliJ IDEA / Eclipse / VS Code
-- Abre la carpeta del proyecto en tu IDE favorito.
-- Asegúrate de marcar la carpeta `src` como **Sources Root**.
-- Ejecuta la clase `Main.java`.
+| Concepto POO | Clase en Java (`src/`) | Implementación Web (`app.js`) |
+|---|---|---|
+| **Tablero** | `com.colombiapoly.modelo.Tablero` | `class Tablero`: Administra las 40 casillas colombianas |
+| **Casilla** | `com.colombiapoly.modelo.Casilla` | `class Casilla`: Propiedades, precios, renta y dueño |
+| **Jugador** | `com.colombiapoly.modelo.Jugador` | `class Jugador`: Saldo COP, avatar, cárcel y activos |
+| **Dado** | `com.colombiapoly.modelo.Dado` | `Math.random()` con animación y regla de dados dobles |
+| **Juego** | `com.colombiapoly.Juego` | `class JuegoWeb`: Orquestador de turnos, UI y eventos |
 
 ---
 
-## 🎯 Ejemplo de Partida en Consola
+## 🚀 Despliegue en Vercel (En 1 Minuto)
 
-```text
-==============================================
-   BIENVENIDO A COLOMBIAPOLY - MODO CONSOLA   
-==============================================
-¿Cuántos jugadores van a jugar? (2-4): 2
-Nombre del Jugador 1: Camilo
-Nombre del Jugador 2: Valentina
+1. Ve a [Vercel](https://vercel.com) e inicia sesión con tu cuenta de **GitHub**.
+2. Haz clic en **"Add New..."** ➡️ **"Project"**.
+3. Selecciona tu repositorio **`Colombiapoly`** y haz clic en **Import**.
+4. Deja la configuración por defecto y haz clic en **Deploy**.
+5. ¡Listo! Vercel te dará una URL pública gratuita (ej. `https://colombiapoly-xxx.vercel.app`) para compartir con reclutadores.
 
-¡Jugadores registrados! Cada uno empieza con $15000000 COP.
+---
 
-----------------------------------------------
-Turno de: Camilo | Saldo: $15000000
-Presiona ENTER para lanzar los dados...
-Has sacado 4 y 2 (Total: 6)
-Camilo cae en la casilla 6: [Pasto (Azul Claro)]
-Esta propiedad no tiene dueño. Precio: $1000000
-¿Deseas comprarla? (s/n): s
-¡Has comprado Pasto (Azul Claro)!
+## 💻 Ejecución Local
+
+### Opción A: Modo Web (Navegador)
+Simplemente abre el archivo `index.html` en cualquier navegador web o usa una extensión como *Live Server* en VS Code.
+
+### Opción B: Modo Consola (Java Terminal)
+```bash
+# Compilar clases
+javac -encoding UTF-8 -d bin src/com/colombiapoly/modelo/*.java src/com/colombiapoly/*.java src/Main.java
+
+# Ejecutar
+java -cp bin Main
 ```
-
----
-
-## 🗺️ Próximas Mejoras (Roadmap)
-
-- [ ] Sistema de construcción de casas y hoteles en las propiedades.
-- [ ] Cartas interactivas de *Casualidad* y *Arca Comunal* con eventos culturales colombianos.
-- [ ] Detección automática de bancarrota y condición de victoria.
-- [ ] Migración a interfaz web con **Spring Boot + React** para despliegue completo en la nube.
 
 ---
 
 ## 👤 Autor
 
 Desarrollado por **[Guillermo](https://github.com/ElGuillers)**.  
-*Proyecto con fines demostrativos de lógica en Java y Programación Orientada a Objetos.*
+*Demostración de habilidades en Java (POO), JavaScript moderno y despliegue continuo en la nube.*

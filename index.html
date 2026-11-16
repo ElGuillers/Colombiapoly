@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Colombiapoly 🇨🇴 | Juego de Bienes Raíces</title>
+  <meta name="description" content="Adaptación interactiva de Colombiapoly en la web. Juega en línea con amigos, compra ciudades de Colombia y gestiona tus propiedades.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- PANTALLA DE CONFIGURACIÓN / LOBBY -->
+  <div id="setup-screen" class="screen active">
+    <div class="setup-container">
+      <div class="brand-badge">🇨🇴 VERSIÓN WEB OFICIAL</div>
+      <h1 class="logo-title">COLOMBIA<span>POLY</span></h1>
+      <p class="tagline">El clásico juego de bienes raíces adaptado a las ciudades y cultura de Colombia.</p>
+      
+      <div class="card setup-card">
+        <h2>Configurar Partida</h2>
+        
+        <div class="form-group">
+          <label>Número de Jugadores:</label>
+          <div class="player-count-buttons">
+            <button type="button" class="btn-count" data-count="2">2 Jugadores</button>
+            <button type="button" class="btn-count active" data-count="3">3 Jugadores</button>
+            <button type="button" class="btn-count" data-count="4">4 Jugadores</button>
+          </div>
+        </div>
+
+        <div id="player-inputs-container" class="player-inputs">
+          <!-- Inyectado por JS -->
+        </div>
+
+        <div class="rules-summary">
+          <div class="rule-item">💰 <strong>$15.000.000 COP</strong> saldo inicial</div>
+          <div class="rule-item">🚀 <strong>+$2.000.000 COP</strong> al pasar por la SALIDA</div>
+          <div class="rule-item">🎲 <strong>Dados dobles</strong> dan turno extra</div>
+          <div class="rule-item">🚨 Cuidado con <strong>La Picota</strong></div>
+        </div>
+
+        <button id="btn-start-game" class="btn btn-primary btn-large">¡Iniciar Partida!</button>
+      </div>
+
+      <div class="tech-stack-badge">
+        <span>Diseñado en Java (POO) &middot; Desplegado en Vercel</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANTALLA PRINCIPAL DEL JUEGO -->
+  <div id="game-screen" class="screen">
+    <!-- BARRA SUPERIOR -->
+    <header class="game-header">
+      <div class="header-brand">
+        <span class="flag">🇨🇴</span>
+        <span class="header-title">COLOMBIA<strong>POLY</strong></span>
+      </div>
+
+      <!-- Tarjetas de jugadores en la barra superior -->
+      <div id="players-dashboard" class="players-dashboard">
+        <!-- Renderizado dinámicamente -->
+      </div>
+
+      <div class="header-actions">
+        <button id="btn-sound-toggle" class="btn-icon" title="Sonido On/Off">🔊</button>
+        <button id="btn-restart" class="btn-secondary-sm">Reiniciar</button>
+      </div>
+    </header>
+
+    <!-- ÁREA DE JUEGO PRINCIPAL -->
+    <main class="game-layout">
+      <!-- COLUMNA IZQUIERDA: TABLERO / LISTA DE CASILLAS -->
+      <section class="board-section">
+        <div class="board-header">
+          <h3>Tablero de Colombia (40 Casillas)</h3>
+          <span class="board-hint">Toca cualquier casilla para ver detalles</span>
+        </div>
+        <div id="board-grid" class="board-grid">
+          <!-- 40 casillas inyectadas por JS -->
+        </div>
+      </section>
+
+      <!-- COLUMNA DERECHA: PANEL DE CONTROL Y ACCIÓN -->
+      <aside class="action-panel">
+        
+        <!-- ESTADO DEL TURNO ACTUAL -->
+        <div class="turn-banner" id="turn-banner">
+          <div class="turn-avatar" id="current-player-avatar">🚗</div>
+          <div class="turn-info">
+            <span class="turn-label">TURNO ACTUAL</span>
+            <h2 id="current-player-name">Jugador 1</h2>
+          </div>
+          <div class="turn-balance" id="current-player-balance">$15.000.000 COP</div>
+        </div>
+
+        <!-- SECCIÓN DE DADOS -->
+        <div class="card dice-card">
+          <div class="dice-display">
+            <div class="die" id="die-1"><span class="die-face">⚀</span></div>
+            <div class="die" id="die-2"><span class="die-face">⚀</span></div>
+          </div>
+          <div id="dice-result-msg" class="dice-result-msg">Presiona para lanzar los dados</div>
+          
+          <div class="action-buttons-group">
+            <button id="btn-roll-dice" class="btn btn-primary btn-block">
+              🎲 Tirar Dados
+            </button>
+            <button id="btn-end-turn" class="btn btn-secondary btn-block" disabled>
+              Terminar Turno ⏭️
+            </button>
+          </div>
+        </div>
+
+        <!-- TARJETA DE CASILLA ACTUAL / ACCIÓN DE COMPRA -->
+        <div class="card current-tile-card" id="current-tile-card">
+          <div class="tile-card-header" id="card-header">
+            <span id="card-color-strip" class="card-color-strip"></span>
+            <div class="card-title-wrap">
+              <span class="card-type-tag" id="card-type-tag">SALIDA</span>
+              <h3 id="card-title">SALIDA</h3>
+            </div>
+          </div>
+          
+          <div class="tile-card-body" id="card-body">
+            <p id="card-description">Punto de partida del juego. ¡Recibe $2.000.000 COP cada vez que completes una vuelta!</p>
+            <div class="tile-stats" id="card-stats" style="display: none;">
+              <div class="stat"><span class="stat-lbl">Precio de compra:</span> <strong id="stat-price">$0</strong></div>
+              <div class="stat"><span class="stat-lbl">Renta básica:</span> <strong id="stat-rent">$0</strong></div>
+              <div class="stat"><span class="stat-lbl">Propietario:</span> <strong id="stat-owner">Nadie</strong></div>
+            </div>
+          </div>
+
+          <div class="tile-card-actions" id="card-actions" style="display: none;">
+            <button id="btn-buy-property" class="btn btn-success btn-block">Comprar Propiedad 🏠</button>
+          </div>
+        </div>
+
+        <!-- REGISTRO DE EVENTOS EN VIVO -->
+        <div class="card log-card">
+          <div class="log-header">
+            <h4>Registro de Partida</h4>
+            <span class="live-dot"></span>
+          </div>
+          <div id="game-log" class="game-log">
+            <!-- Mensajes inyectados dinámicamente -->
+          </div>
+        </div>
+
+      </aside>
+    </main>
+  </div>
+
+  <!-- MODAL DE PROPIEDADES DEL JUGADOR -->
+  <div id="modal-properties" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modal-player-title">Propiedades de Jugador</h3>
+        <button class="btn-close" id="btn-close-modal">&times;</button>
+      </div>
+      <div id="modal-properties-list" class="modal-body">
+        <!-- Lista de propiedades -->
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
